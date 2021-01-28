@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 /* Autor: Wlodzimierz Kowjako @maybedot */
+/* 257276*/
 namespace MineSweeper
 {
     public partial class Form1 : Form
