@@ -51,17 +51,16 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(517, 37);
+            this.panel1.Size = new System.Drawing.Size(514, 37);
             this.panel1.TabIndex = 0;
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(480, 1);
+            this.button1.Location = new System.Drawing.Point(476, 1);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(32, 31);
             this.button1.TabIndex = 0;
@@ -85,17 +84,17 @@
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.flp1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 37);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(517, 567);
+            this.panel2.Size = new System.Drawing.Size(514, 561);
             this.panel2.TabIndex = 2;
             // 
             // flp1
             // 
+            this.flp1.BackColor = System.Drawing.Color.SeaGreen;
             this.flp1.Location = new System.Drawing.Point(-1, 56);
             this.flp1.Name = "flp1";
-            this.flp1.Size = new System.Drawing.Size(517, 510);
+            this.flp1.Size = new System.Drawing.Size(514, 504);
             this.flp1.TabIndex = 0;
             // 
             // statusPictureBox
@@ -109,14 +108,14 @@
             // 
             // panel3
             // 
+            this.panel3.BackColor = System.Drawing.Color.Green;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.timeBox);
             this.panel3.Controls.Add(this.bombBox);
             this.panel3.Controls.Add(this.statusPictureBox);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(0, 37);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(517, 57);
+            this.panel3.Size = new System.Drawing.Size(514, 57);
             this.panel3.TabIndex = 3;
             // 
             // timeBox
@@ -139,7 +138,7 @@
             this.bombBox.Size = new System.Drawing.Size(222, 44);
             this.bombBox.TabIndex = 1;
             this.bombBox.TabStop = false;
-            this.bombBox.Text = "16";
+            this.bombBox.Text = "10";
             this.bombBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // timer1
@@ -151,8 +150,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(517, 604);
+            this.BackColor = System.Drawing.Color.DarkRed;
+            this.ClientSize = new System.Drawing.Size(514, 599);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);

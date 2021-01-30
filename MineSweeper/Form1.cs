@@ -15,33 +15,45 @@ namespace MineSweeper
     public partial class Form1 : Form
     {
         private List<PictureBox> totalFields = new List<PictureBox>();
-        private List<Point> bombs = new List<Point>();
+        private List<int> bombs = new List<int>();
         private Point lastPoint;
         DateTime now;
+        private int destroyedBomb;
         
         public Form1()
         {
             InitializeComponent();
-            now = DateTime.Now;
-            statusPictureBox.Image = Properties.Resources.smile_happy;
+            statusPictureBox.Image = Properties.Resources.smile_template;
             spawnMap();
             generateBomb();
         }
 
         private void generateBomb()
         {
-            for (int i = 0; i < 10; i++)
+            //StringBuilder sb = new StringBuilder();
+            Random r = new Random();
+            while (bombs.Count < 10)
             {
-
+                int tmpBomb = r.Next(0, 81);
+                if (!bombs.Contains(tmpBomb))
+                {
+                    bombs.Add(tmpBomb);
+                    //sb.Append(tmpBomb + " ");
+                }
             }
+           // MessageBox.Show(sb.ToString());
         }
 
         private void spawnMap()
         {
+            now = DateTime.Now;
+            flp1.Controls.Clear();
             for (int i = 0; i < 81; i++)
             {
                 PictureBox tmp = new PictureBox();
-                tmp.Name = $"field{0}";
+                tmp.MouseUp += Tmp_Click;
+                tmp.SizeMode = PictureBoxSizeMode.Zoom;
+                tmp.Name = $"field{i}";
                 tmp.Cursor = Cursors.Hand;
                 tmp.Size = new Size(51, 50);
                 tmp.BorderStyle = BorderStyle.FixedSingle;
@@ -49,6 +61,58 @@ namespace MineSweeper
                 totalFields.Add(tmp);
                 flp1.Controls.Add(tmp);
             }
+            timer1.Start();
+        }
+
+        private void Tmp_Click(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Middle)
+            {
+                if (((PictureBox)sender).Image == null)
+                    ((PictureBox)sender).Image = Properties.Resources.doubt_flag;
+                else ((PictureBox)sender).Image = null;
+                return;
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                if (((PictureBox)sender).Image == null)
+                    ((PictureBox)sender).Image = Properties.Resources.red_flag;
+                else ((PictureBox)sender).Image = null;
+                return;
+            }
+            else {
+                String pictureIndex = (((PictureBox)sender).Name.Substring(5));
+                if (bombs.Contains(Convert.ToInt32(pictureIndex)))
+                {
+                    destroyedBomb = Convert.ToInt32(pictureIndex);
+                    ((PictureBox)sender).Image = Properties.Resources.boom;
+                    statusPictureBox.Image = Properties.Resources.smile_sad;
+                    endGame();
+                }
+            }    
+        }
+
+        private void showAllBombs()
+        {
+            foreach(int i in bombs)
+            {
+                if (i == destroyedBomb) continue;
+                else
+                {
+                    (totalFields.FirstOrDefault(x => x.Name == $"field{i}")).Image = Properties.Resources.mine;
+                }
+            }
+        }
+
+        private void endGame()
+        {
+            timer1.Stop();
+            showAllBombs();
+            MessageBox.Show(this, "Gra zakonczona", "Instrukcja", MessageBoxButtons.OK,MessageBoxIcon.Information);
+            bombs.Clear();
+            totalFields.Clear();
+            spawnMap();
+            generateBomb();
         }
 
         private void panel1_MouseDown(object sender, MouseEventArgs e)
@@ -72,7 +136,7 @@ namespace MineSweeper
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            timeBox.Text = DateTime.Now.Subtract(now).TotalSeconds.ToString();
+            timeBox.Text = ((int)(DateTime.Now.Subtract(now).TotalSeconds)).ToString();
         }
 
     }
