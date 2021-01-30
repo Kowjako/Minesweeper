@@ -14,9 +14,11 @@ namespace MineSweeper
 {
     public partial class Form1 : Form
     {
+        private List<int> rightBorder = new List<int>{ 17, 26, 35, 44, 53, 62, 71 };
         private List<PictureBox> totalFields = new List<PictureBox>();
         private List<int> bombs = new List<int>();
         private Point lastPoint;
+        private int numOfRedFlags = 0;
         DateTime now;
         private int destroyedBomb;
         
@@ -28,6 +30,92 @@ namespace MineSweeper
             generateBomb();
         }
 
+
+        private PictureBox getFieldByIndex(int index)
+        {
+            return totalFields.FirstOrDefault(x=>x.Name == $"field{index}");
+        }
+
+        private int checkBombsAround(PictureBox tmp)
+        {
+            int counterOfBombs = 0;
+            int correction = 0;
+            int numberOfFiled = Convert.ToInt32(tmp.Name.Substring(5)); //Dostanie numeru siatki
+            if (numberOfFiled > 0 && numberOfFiled < 8)
+            {
+                if (bombs.Contains(numberOfFiled - 1)) counterOfBombs++;
+                if (bombs.Contains(numberOfFiled + 1)) counterOfBombs++;
+                for (int i = 8; i < 11; i++)
+                {
+                    if (bombs.Contains(numberOfFiled + i)) counterOfBombs++;
+                }
+                return counterOfBombs;
+            }
+            if (numberOfFiled > 72 && numberOfFiled < 80)
+            {
+                if (bombs.Contains(numberOfFiled - 1)) counterOfBombs++;
+                if (bombs.Contains(numberOfFiled + 1)) counterOfBombs++;
+                for (int i = 8; i < 11; i++)
+                {
+                    if (bombs.Contains(numberOfFiled - i)) counterOfBombs++;
+                }
+                return counterOfBombs;
+            }
+            if (numberOfFiled % 9 == 0 && numberOfFiled != 0 && numberOfFiled != 72)
+            {
+                if (bombs.Contains(numberOfFiled - 9)) counterOfBombs++;
+                if (bombs.Contains(numberOfFiled + 9)) counterOfBombs++;
+                if (bombs.Contains(numberOfFiled - 8)) counterOfBombs++;
+                if (bombs.Contains(numberOfFiled + 1)) counterOfBombs++;
+                if (bombs.Contains(numberOfFiled + 10)) counterOfBombs++;
+                return counterOfBombs;
+            }
+            if (rightBorder.Contains(numberOfFiled) && numberOfFiled != 8 && numberOfFiled != 80)
+            {
+                if (bombs.Contains(numberOfFiled - 9)) counterOfBombs++;
+                if (bombs.Contains(numberOfFiled - 10)) counterOfBombs++;
+                if (bombs.Contains(numberOfFiled - 1)) counterOfBombs++;
+                if (bombs.Contains(numberOfFiled + 8)) counterOfBombs++;
+                if (bombs.Contains(numberOfFiled + 9)) counterOfBombs++;
+                return counterOfBombs;
+            }
+            if (numberOfFiled == 0)
+            {
+                if (bombs.Contains(1)) counterOfBombs++;
+                if (bombs.Contains(9)) counterOfBombs++;
+                if (bombs.Contains(10)) counterOfBombs++;
+                return counterOfBombs;
+            }
+            if (numberOfFiled == 8)
+            {
+                if (bombs.Contains(7)) counterOfBombs++;
+                if (bombs.Contains(16)) counterOfBombs++;
+                if (bombs.Contains(17)) counterOfBombs++;
+                return counterOfBombs;
+            }
+            if (numberOfFiled == 72)
+            {
+                if (bombs.Contains(63)) counterOfBombs++;
+                if (bombs.Contains(64)) counterOfBombs++;
+                if (bombs.Contains(73)) counterOfBombs++;
+                return counterOfBombs;
+            }
+            if (numberOfFiled == 80)
+            {
+                if (bombs.Contains(70)) counterOfBombs++;
+                if (bombs.Contains(71)) counterOfBombs++;
+                if (bombs.Contains(79)) counterOfBombs++;
+                return counterOfBombs;
+            }
+            for (int i = 0; i < 9; i++)
+            {
+                if (i == 3) correction = 6;
+                if (i == 6) correction = 12;
+                if (bombs.Contains(numberOfFiled - 10 + i + correction)) counterOfBombs++;
+            }
+            return counterOfBombs;
+        }
+
         private void generateBomb()
         {
             //StringBuilder sb = new StringBuilder();
@@ -37,6 +125,7 @@ namespace MineSweeper
                 int tmpBomb = r.Next(0, 81);
                 if (!bombs.Contains(tmpBomb))
                 {
+                    getFieldByIndex(tmpBomb).Image = Properties.Resources.mine;
                     bombs.Add(tmpBomb);
                     //sb.Append(tmpBomb + " ");
                 }
@@ -75,9 +164,19 @@ namespace MineSweeper
             }
             if (e.Button == MouseButtons.Right)
             {
+                if (Convert.ToInt32(bombBox.Text) != 0)  bombBox.Text = (Convert.ToInt32(bombBox.Text) - 1).ToString();
                 if (((PictureBox)sender).Image == null)
-                    ((PictureBox)sender).Image = Properties.Resources.red_flag;
-                else ((PictureBox)sender).Image = null;
+                {
+                    if (numOfRedFlags < 10)
+                    {
+                        ((PictureBox)sender).Image = Properties.Resources.red_flag;
+                        numOfRedFlags++;
+                    }
+                }
+                else {
+                    ((PictureBox)sender).Image = null;
+                    numOfRedFlags--;
+                }
                 return;
             }
             else {
@@ -89,7 +188,33 @@ namespace MineSweeper
                     statusPictureBox.Image = Properties.Resources.smile_sad;
                     endGame();
                 }
+                else
+                {
+                    int bombs = checkBombsAround(getFieldByIndex(Convert.ToInt32(pictureIndex)));
+                    if (bombs != 0)
+                    {
+                        string nameOfPicture = $"_{bombs}";
+                        ((PictureBox)sender).BackColor = Color.White;
+                        ((PictureBox)sender).Image = getImageWithBomb(bombs);
+                    }
+                    else ((PictureBox)sender).BackColor = Color.White;
+                }
             }    
+        }
+
+        private Bitmap getImageWithBomb(int bomb)
+        {
+            switch(bomb)
+            {
+                case 1: return Properties.Resources._1;
+                case 2: return Properties.Resources._2;
+                case 3: return Properties.Resources._3;
+                case 4: return Properties.Resources._4;
+                case 5: return Properties.Resources._5;
+                case 6: return Properties.Resources._6;
+                case 7: return Properties.Resources._7;
+            }
+            return null;
         }
 
         private void showAllBombs()
@@ -108,7 +233,7 @@ namespace MineSweeper
         {
             timer1.Stop();
             showAllBombs();
-            MessageBox.Show(this, "Gra zakonczona", "Instrukcja", MessageBoxButtons.OK,MessageBoxIcon.Information);
+            MessageBox.Show(this, "Gra zakończona", "Instrukcja", MessageBoxButtons.OK,MessageBoxIcon.Information);
             bombs.Clear();
             totalFields.Clear();
             spawnMap();
