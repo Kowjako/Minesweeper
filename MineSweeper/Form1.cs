@@ -14,6 +14,8 @@ namespace MineSweeper
 {
     public partial class Form1 : Form
     {
+        #region Variables
+
         private List<int> rightBorder = new List<int>{ 17, 26, 35, 44, 53, 62, 71 };
         private List<PictureBox> totalFields = new List<PictureBox>();
         private List<int> bombs = new List<int>();
@@ -24,7 +26,8 @@ namespace MineSweeper
         private int numOfRedFlags = 0;
         DateTime now; /* Reflects time when program was started */
         private int destroyedBomb;
-        
+        #endregion
+
         public Form1()
         {
             InitializeComponent();
@@ -223,6 +226,8 @@ namespace MineSweeper
                 MessageBox.Show(this, "You are winner", "Instrukcja", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 bombs.Clear();
                 totalFields.Clear();
+                uncheckedEmptyFields.Clear();
+                checkedEmptyFields.Clear();
                 spawnMap();
                 generateBomb();
                 statusPictureBox.Image = Properties.Resources.smile_template;
@@ -275,7 +280,7 @@ namespace MineSweeper
                     (getFieldByIndex(1)).Image = getImageWithBomb(bombs);
                     (getFieldByIndex(1)).BackColor = Color.White;
                 }
-                else if (!uncheckedEmptyFields.Contains(1) || !checkedEmptyFields.Contains(1)) uncheckedEmptyFields.Enqueue(1);
+                else if (!uncheckedEmptyFields.Contains(1) && !checkedEmptyFields.Contains(1)) uncheckedEmptyFields.Enqueue(1);
                 for (int i = 9; i < 11; i++)
                 {
                     if ((bombs = checkBombsAround(getFieldByIndex(i))) != 0)
@@ -283,7 +288,7 @@ namespace MineSweeper
                         (getFieldByIndex(i)).Image = getImageWithBomb(bombs);
                         (getFieldByIndex(i)).BackColor = Color.White;
                     }
-                    else if (!uncheckedEmptyFields.Contains(i) || !checkedEmptyFields.Contains(i)) uncheckedEmptyFields.Enqueue(i);
+                    else if (!uncheckedEmptyFields.Contains(i) && !checkedEmptyFields.Contains(i)) uncheckedEmptyFields.Enqueue(i);
                 }
             }
 
@@ -295,7 +300,7 @@ namespace MineSweeper
                     (getFieldByIndex(7)).Image = getImageWithBomb(bombs);
                     (getFieldByIndex(7)).BackColor = Color.White;
                 }
-                else if (!uncheckedEmptyFields.Contains(7) || !checkedEmptyFields.Contains(7)) uncheckedEmptyFields.Enqueue(7);
+                else if (!uncheckedEmptyFields.Contains(7) && !checkedEmptyFields.Contains(7)) uncheckedEmptyFields.Enqueue(7);
                 for (int i = 8; i < 10; i++)
                 {
                     if ((bombs = checkBombsAround(getFieldByIndex(i + 8))) != 0)
@@ -303,7 +308,7 @@ namespace MineSweeper
                         (getFieldByIndex(i + 8)).Image = getImageWithBomb(bombs);
                         (getFieldByIndex(i + 8)).BackColor = Color.White;
                     }
-                    else if (!uncheckedEmptyFields.Contains(i + 8) || !checkedEmptyFields.Contains(i + 8)) uncheckedEmptyFields.Enqueue(i + 8);
+                    else if (!uncheckedEmptyFields.Contains(i + 8) && !checkedEmptyFields.Contains(i + 8)) uncheckedEmptyFields.Enqueue(i + 8);
                 }
             }
 
@@ -315,7 +320,7 @@ namespace MineSweeper
                     (getFieldByIndex(73)).Image = getImageWithBomb(bombs);
                     (getFieldByIndex(73)).BackColor = Color.White;
                 }
-                else if (!uncheckedEmptyFields.Contains(73) || !checkedEmptyFields.Contains(73)) uncheckedEmptyFields.Enqueue(73);
+                else if (!uncheckedEmptyFields.Contains(73) && !checkedEmptyFields.Contains(73)) uncheckedEmptyFields.Enqueue(73);
                 for (int i = 8; i < 10; i++)
                 {
                     if ((bombs = checkBombsAround(getFieldByIndex(72 - i))) != 0)
@@ -323,7 +328,7 @@ namespace MineSweeper
                         (getFieldByIndex(72 - i)).Image = getImageWithBomb(bombs);
                         (getFieldByIndex(72 - i)).BackColor = Color.White;
                     }
-                    else if (!uncheckedEmptyFields.Contains(72 - i) || !checkedEmptyFields.Contains(72 - i)) uncheckedEmptyFields.Enqueue(72 - i);
+                    else if (!uncheckedEmptyFields.Contains(72 - i) && !checkedEmptyFields.Contains(72 - i)) uncheckedEmptyFields.Enqueue(72 - i);
                 }
             }
 
@@ -335,7 +340,7 @@ namespace MineSweeper
                     (getFieldByIndex(79)).Image = getImageWithBomb(bombs);
                     (getFieldByIndex(79)).BackColor = Color.White;
                 }
-                else if (!uncheckedEmptyFields.Contains(79) || !checkedEmptyFields.Contains(79)) uncheckedEmptyFields.Enqueue(79);
+                else if (!uncheckedEmptyFields.Contains(79) && !checkedEmptyFields.Contains(79)) uncheckedEmptyFields.Enqueue(79);
                 for (int i = 9; i < 11; i++)
                 {
                     if ((bombs = checkBombsAround(getFieldByIndex(80 - i))) != 0)
@@ -343,7 +348,7 @@ namespace MineSweeper
                         (getFieldByIndex(80 - i)).Image = getImageWithBomb(bombs);
                         (getFieldByIndex(80 - i)).BackColor = Color.White;
                     }
-                    else if (!uncheckedEmptyFields.Contains(80 - i) || !checkedEmptyFields.Contains(80 - i)) uncheckedEmptyFields.Enqueue(80 - i);
+                    else if (!uncheckedEmptyFields.Contains(80 - i) && !checkedEmptyFields.Contains(80 - i)) uncheckedEmptyFields.Enqueue(80 - i);
                 }
             }
             #endregion
@@ -497,6 +502,8 @@ namespace MineSweeper
             MessageBox.Show(this, "Gra zakończona", "Instrukcja", MessageBoxButtons.OK,MessageBoxIcon.Information);
             bombs.Clear();
             totalFields.Clear();
+            uncheckedEmptyFields.Clear();
+            checkedEmptyFields.Clear();
             spawnMap();
             generateBomb();
             statusPictureBox.Image = Properties.Resources.smile_template;
