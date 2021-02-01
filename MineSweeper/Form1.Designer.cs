@@ -91,7 +91,7 @@
             // 
             // flp1
             // 
-            this.flp1.BackColor = System.Drawing.Color.SeaGreen;
+            this.flp1.BackColor = System.Drawing.Color.DarkKhaki;
             this.flp1.Location = new System.Drawing.Point(-1, 56);
             this.flp1.Name = "flp1";
             this.flp1.Size = new System.Drawing.Size(514, 504);
@@ -99,7 +99,7 @@
             // 
             // statusPictureBox
             // 
-            this.statusPictureBox.Location = new System.Drawing.Point(238, 5);
+            this.statusPictureBox.Location = new System.Drawing.Point(230, 5);
             this.statusPictureBox.Name = "statusPictureBox";
             this.statusPictureBox.Size = new System.Drawing.Size(50, 44);
             this.statusPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -108,7 +108,7 @@
             // 
             // panel3
             // 
-            this.panel3.BackColor = System.Drawing.Color.Green;
+            this.panel3.BackColor = System.Drawing.Color.DarkKhaki;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.timeBox);
             this.panel3.Controls.Add(this.bombBox);
@@ -121,10 +121,10 @@
             // timeBox
             // 
             this.timeBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.timeBox.Location = new System.Drawing.Point(302, 6);
+            this.timeBox.Location = new System.Drawing.Point(286, 6);
             this.timeBox.Name = "timeBox";
             this.timeBox.ReadOnly = true;
-            this.timeBox.Size = new System.Drawing.Size(206, 44);
+            this.timeBox.Size = new System.Drawing.Size(222, 44);
             this.timeBox.TabIndex = 2;
             this.timeBox.TabStop = false;
             this.timeBox.Text = "0";
